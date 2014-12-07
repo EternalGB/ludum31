@@ -166,12 +166,19 @@ public class RoomManager : MonoBehaviour
 		//make new rooms in the positions they should be in but off camera
 		Vector2[] positions = new Vector2[3];
 		int posCounter = 0;
+		RoomType[] types = new RoomType[3];
+		for(int i = 0; i < types.Length; i++) {
+			types[i] = RoomType.NONE;
+		}
 		for(int i = 0; i < rooms.Length; i++) {
 			if(rooms[i] == null) {
 				positions[posCounter] = new Vector2(16*(i%3)+8, 16*(i/3)+8) + (new Vector2(0,16*3)); //to push above map
-				GameObject roomObj = (GameObject)GameObject.Instantiate(SelectNextRoom(),positions[posCounter],Quaternion.identity);
+				GameObject nextRoom = SelectNextRoom(types);
+				types[posCounter] = nextRoom.GetComponent<Room>().type;
+				GameObject roomObj = (GameObject)GameObject.Instantiate(nextRoom,positions[posCounter],Quaternion.identity);
 				rooms[i] = roomObj.GetComponent<Room>();
 				rooms[i].RoomActivated += HandleRoomActivation;
+
 				posCounter++;
 				numRoomsSpawned++;
 			}
@@ -211,25 +218,78 @@ public class RoomManager : MonoBehaviour
 
 	}
 
-	GameObject SelectNextRoom()
+	GameObject SelectNextRoom(RoomType[] types)
 	{
 		//the first few rooms are special
 		if(numRoomsSpawned == 0)
 			return playerRoom;
 		else if(numRoomsSpawned < 3) 
 			return Util.GetRandomElement(emptyRoomPrefabs);
-		else if(Random.value <= purpleRoomChance) {
-			return Util.GetRandomElement(purpleRoomPrefabs);
-		} else {
-			purpleRoomChance = Mathf.Clamp(purpleRoomChance + purpleChanceIncreaseRate,0,purpleChanceMax);
-			float roll = Random.value;
-			if(roll < 0.33)
-				return Util.GetRandomElement(blueRoomPrefabs);
-			else if(roll < 0.66)
-				return Util.GetRandomElement(greenRoomPrefabs);
-			else
-				return Util.GetRandomElement(redRoomPrefabs);
+		else {
+			RoomType pairType = GetTypePair(types);
+			if(pairType != RoomType.NONE) {
+				if(pairType != RoomType.PURPLE)
+					purpleRoomChance = Mathf.Clamp(purpleRoomChance + purpleChanceIncreaseRate,0,purpleChanceMax);
+				float roll = Random.value;
+				switch(pairType) {
+				default:
+					if(roll < 0.33)
+						return Util.GetRandomElement(blueRoomPrefabs);
+					else if(roll < 0.66)
+						return Util.GetRandomElement(greenRoomPrefabs);
+					else
+						return Util.GetRandomElement(redRoomPrefabs);
+				case RoomType.BLUE:
+					if(roll < purpleRoomChance)
+						return Util.GetRandomElement(purpleRoomPrefabs);
+					else if(roll < 0.5)
+						return Util.GetRandomElement(greenRoomPrefabs);
+					else
+						return Util.GetRandomElement(redRoomPrefabs);
+				case RoomType.GREEN:
+					if(roll < purpleRoomChance)
+						return Util.GetRandomElement(purpleRoomPrefabs);
+					else if(roll < 0.5)
+						return Util.GetRandomElement(blueRoomPrefabs);
+					else
+						return Util.GetRandomElement(redRoomPrefabs);
+				case RoomType.PURPLE:
+					if(roll < 0.5)
+						return Util.GetRandomElement(greenRoomPrefabs);
+					else
+						return Util.GetRandomElement(redRoomPrefabs);
+				case RoomType.RED:
+					if(roll < purpleRoomChance)
+						return Util.GetRandomElement(purpleRoomPrefabs);
+					else if(roll < 0.5)
+						return Util.GetRandomElement(greenRoomPrefabs);
+					else
+						return Util.GetRandomElement(blueRoomPrefabs);
+				}
+			} else if(Random.value <= purpleRoomChance) {
+				return Util.GetRandomElement(purpleRoomPrefabs);
+			} else {
+				purpleRoomChance = Mathf.Clamp(purpleRoomChance + purpleChanceIncreaseRate,0,purpleChanceMax);
+				float roll = Random.value;
+				if(roll < 0.33)
+					return Util.GetRandomElement(blueRoomPrefabs);
+				else if(roll < 0.66)
+					return Util.GetRandomElement(greenRoomPrefabs);
+				else
+					return Util.GetRandomElement(redRoomPrefabs);
+			}
 		}
+	}
+
+	RoomType GetTypePair(RoomType[] types)
+	{
+		if(types[0] == types[1])
+			return types[0];
+		if(types[1] == types[2])
+			return types[1];
+		if(types[0] == types[2])
+			return types[0];
+		return RoomType.NONE;
 	}
 
 	void EndSliding()
