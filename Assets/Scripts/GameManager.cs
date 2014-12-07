@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 	public GameObject playerDummyPrefab;
 	public RoomManager roomManager;
 
-
+	public GameObject gameWinUI;
 
 	void Start()
 	{
@@ -28,6 +28,23 @@ public class GameManager : MonoBehaviour
 	void DestroyObject(GameObject obj)
 	{
 		DestroyImmediate(obj);
+	}
+
+	public void GameOver()
+	{
+		Restart();
+	}
+
+	public void GameWin()
+	{
+		Time.timeScale = 0;
+		gameWinUI.SetActive(true);
+	}
+
+	public void Restart()
+	{
+		Time.timeScale = 1;
+		Application.LoadLevel(Application.loadedLevel);
 	}
 
 }

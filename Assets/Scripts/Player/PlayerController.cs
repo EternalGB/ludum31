@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 	GameActor ga;
 	public LineRenderer lr;
 	ParticleSystem hitParticles;
+	public UnscaledTimeParticleController deathParticles;
 	public float ammo;
 	public float maxAmmo;
 	public float attackSpeed;
@@ -104,9 +105,18 @@ public class PlayerController : MonoBehaviour
 			freezerGun.ReceiveAmmo(amount);
 	}
 
-	void Die()
+	public void Die()
 	{
-		//TODO Game over
+		Time.timeScale = 0;
+		deathParticles.Play();
+		GameObject.Find ("RoomManager").GetComponent<RoomManager>().paused = true;
+		StartCoroutine(Timers.CountdownRealtime(deathParticles.ps.duration,EndGame));
+	}
+
+	void EndGame()
+	{
+		deathParticles.Stop();
+		GameObject.Find("GameManager").GetComponent<GameManager>().GameOver();
 	}
 
 

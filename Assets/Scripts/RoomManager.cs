@@ -30,6 +30,8 @@ public class RoomManager : MonoBehaviour
 
 	int numRoomsSpawned = 0;
 
+	public bool paused = false;
+
 	Dictionary<GameObject,Vector3> otherSlidingObjects;
 
 	void Start()
@@ -55,7 +57,7 @@ public class RoomManager : MonoBehaviour
 
 	void Update()
 	{
-		if(sliding) {
+		if(!paused && sliding) {
 			//if room is not in correct position, slide it a bit
 			for(int i = 0; i < rooms.Length; i++) {
 				Vector3 correctPos = RoomPosToWorldPos(i);
@@ -93,6 +95,7 @@ public class RoomManager : MonoBehaviour
 					break;
 				case RoomType.PURPLE:
 					//win!
+					GameObject.Find ("GameManager").GetComponent<GameManager>().GameWin();
 					break;
 				case RoomType.RED:
 					//spawn some health
@@ -137,7 +140,7 @@ public class RoomManager : MonoBehaviour
 			List<GameObject> objs = room.GetObjectsInside();
 			foreach(GameObject obj in objs) {
 				if(obj.layer == LayerMask.NameToLayer("Player")) {
-					//TODO GAME OVER
+					obj.GetComponent<PlayerController>().Die();
 				} else {
 					GameObject.DestroyImmediate(obj);
 				}

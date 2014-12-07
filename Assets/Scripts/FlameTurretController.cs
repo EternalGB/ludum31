@@ -13,7 +13,7 @@ public class FlameTurretController : MonoBehaviour
 	void Start()
 	{
 		damageZone.SetActive(false);
-		Invoke("Fire",startDelay + inactiveTime);
+		Invoke("Fire",startDelay);
 	}
 
 	void Fire()
