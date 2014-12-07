@@ -9,6 +9,7 @@ public class ChaserBehaviour : MonoBehaviour
 	Transform target;
 	Pathfinder pathfinder;
 	public LayerMask rayMask;
+	public AudioClip[] deathSounds;
 
 	void OnEnable()
 	{
@@ -24,6 +25,13 @@ public class ChaserBehaviour : MonoBehaviour
 				SendMessage("Die");
 			}
 		}
+	}
+
+	void Die()
+	{
+		AudioClip clip = Util.GetRandomElement(deathSounds);
+		if(clip != null)
+			audio.PlayOneShot(clip,2);
 	}
 
 	void Update()

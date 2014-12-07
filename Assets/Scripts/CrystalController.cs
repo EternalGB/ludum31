@@ -22,6 +22,15 @@ public class CrystalController : MonoBehaviour
 			chargeTime = Mathf.PingPong(2*(Time.time-destroyStartTime+1),1);
 		
 		anim.fill = chargeTime/chargeDuration;
+		audio.pitch = 1 + anim.fill;
+	}
+
+	void OnTriggerEnter2D(Collider2D coll) 
+	{
+		if(!activated && coll.gameObject.layer == LayerMask.NameToLayer("Player")) {
+			charging = true;
+			audio.Play();
+		}
 	}
 
 	void OnTriggerStay2D(Collider2D coll)
@@ -33,14 +42,17 @@ public class CrystalController : MonoBehaviour
 			if(chargeTime >= chargeDuration) {
 				activated = true;
 				room.Activate();
+
 			}
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D coll)
 	{
-		if(!activated)
+		if(!activated) {
 			charging = false;
+			audio.Stop();
+		}
 	}
 
 	public void Deactivate()

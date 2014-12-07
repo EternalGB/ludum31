@@ -13,7 +13,6 @@ public class FreezerGun : MonoBehaviour
 		get{return ammo > 0;}
 	}
 
-
 	public void Fire(Vector3 target)
 	{
 		if(ammo > 0) {

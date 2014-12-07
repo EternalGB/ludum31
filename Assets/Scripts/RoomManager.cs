@@ -16,7 +16,11 @@ public class RoomManager : MonoBehaviour
 	public GameObject ammoPickup;
 	public GameObject healthPickup;
 	public GameObject freezerPickup;
-	
+
+	public GameObject smallAmmoPickup;
+	public GameObject smallHealthPickup;
+	public GameObject smallFreezerPickup;
+
 	public float purpleRoomChance, purpleChanceIncreaseRate, purpleChanceMax;
 
 	int[] activatedRooms;
@@ -79,11 +83,18 @@ public class RoomManager : MonoBehaviour
 		numActivated++;
 		if(numActivated == matchNum) {
 			if(CheckForMatches()) {
-				StartRoomClear();
+
 				RoomType matchType = GetTypeMatch();
 				switch(matchType) {
 				case RoomType.NONE:
-					//do nothing
+					//spawn a smaller powerup the last cleared
+					Room r = rooms[activatedRooms[2]];
+					if(r.type == RoomType.BLUE)
+						Util.GetRandomElement<Room>(rooms).SpawnInsideRoom(smallFreezerPickup);
+					else if(r.type == RoomType.RED)
+						Util.GetRandomElement<Room>(rooms).SpawnInsideRoom(smallHealthPickup);
+					else if(r.type == RoomType.GREEN)
+						Util.GetRandomElement<Room>(rooms).SpawnInsideRoom(smallAmmoPickup);
 					break;
 				case RoomType.BLUE:
 					//spawn the freezer powerup
@@ -102,6 +113,7 @@ public class RoomManager : MonoBehaviour
 					Util.GetRandomElement<Room>(rooms).SpawnInsideRoom(healthPickup);
 					break;
 				}
+				StartRoomClear();
 			} else {
 				foreach(Room r in rooms) {
 					r.Deactivate();
@@ -144,7 +156,8 @@ public class RoomManager : MonoBehaviour
 					obj.GetComponent<PlayerController>().Die();
 					return;
 				} else {
-					obj.SendMessage("Die");
+					if(obj != null)
+						obj.SendMessage("Die");
 					//GameObject.DestroyImmediate(obj);
 				}
 			}

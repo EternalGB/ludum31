@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
 	public GameObject gameWinUI;
 	public GameObject helpText;
+	
 
 	void Start()
 	{
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
 
 	public void GameOver()
 	{
+
 		Restart();
 	}
 

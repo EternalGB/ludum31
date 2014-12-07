@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
 	public FreezerGun freezerGun;
 	public bool haveFreezerGun;
 
+	public AudioClip[] gunSounds;
+	public AudioClip freezerGunSound, deathSound;
+
 	FillBarController healthBar;
 	FillBarController ammoBar;
 	FillBarController iceBar;
@@ -46,12 +49,18 @@ public class PlayerController : MonoBehaviour
 		if(Input.GetButton("Fire")) {
 			Fire(Util.MouseToWorldPos(0));
 		} else if(freezerGun != null && Input.GetButton("AltFire")) {
-			if(freezerGun.CanFire)
+			if(freezerGun.CanFire) {
 				freezerGun.Fire(Util.MouseToWorldPos(0));
-			else
+				audio.clip = freezerGunSound;
+				if(!audio.isPlaying)
+					audio.Play();
+			} else {
 				freezerGun.StopFire();
+				audio.Stop();
+			}
 		} else if(freezerGun != null && Input.GetButtonUp("AltFire")) {
 			freezerGun.StopFire();
+			audio.Stop();
 		}
 
 		if(healthBar != null)
@@ -69,6 +78,7 @@ public class PlayerController : MonoBehaviour
 	void Fire(Vector3 target)
 	{
 		if(canFire && ammo > 0) {
+			audio.PlayOneShot(Util.GetRandomElement(gunSounds));
 			//Debug.Log ("Firing at " + target);
 			RaycastHit2D hit;
 			if(hit = Physics2D.Raycast(transform.position,(target-transform.position).normalized,100,shootable.value)) {
@@ -107,6 +117,7 @@ public class PlayerController : MonoBehaviour
 
 	public void Die()
 	{
+		audio.PlayOneShot(deathSound,2);
 		GetComponent<SpriteRenderer>().enabled = false;
 		Time.timeScale = 0;
 		deathParticles.Play();

@@ -32,7 +32,7 @@ public class GameActor : MonoBehaviour
 			} else {
 				EnableAllScripts();
 			}
-			actualSpeed = Mathf.Lerp(speed,0,freeze/maxFreeze);
+			actualSpeed = Mathf.Lerp(speed,0,freeze/(maxFreeze*frozenSolidPercentage));
 		} else {
 			actualSpeed = speed;
 		}
@@ -41,8 +41,7 @@ public class GameActor : MonoBehaviour
 
 		rigidbody2D.velocity = Vector2.ClampMagnitude(moveDir*actualSpeed,actualSpeed);
 
-		if(health <= 0)
-			SendMessage("Die");
+
 
 		freeze = Mathf.Clamp(freeze - thawRate*Time.deltaTime,0,maxFreeze);
 	}
@@ -50,6 +49,8 @@ public class GameActor : MonoBehaviour
 	public void TakeDamage(float amount)
 	{
 		health -= amount;
+		if(health <= 0)
+			SendMessage("Die");
 	}
 
 	public void Heal(float amount)

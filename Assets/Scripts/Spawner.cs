@@ -17,6 +17,8 @@ public class Spawner : MonoBehaviour
 
 	void OnEnable()
 	{
+		//wanted faster spawns and couldn't be bothered going through all the prefabs
+		spawnRate = spawnRate*1.5f;
 		pool = PoolManager.Instance.GetPoolByRepresentative(prefab);
 		Invoke("Spawn",1/spawnRate);
 		lerpSpeed = spawnRate;

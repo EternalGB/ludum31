@@ -96,7 +96,7 @@ public class Pathfinder : MonoBehaviour
 		}
 
 		foreach(NavPoint np in allPoints) {
-			if(np.gameObject.activeInHierarchy) {
+			if(np != null && np.gameObject.activeInHierarchy) {
 				dist = Vector3.Distance(position,np.position);
 				if(dist < bestDist) {
 					current = np;
