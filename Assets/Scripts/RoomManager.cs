@@ -87,11 +87,11 @@ public class RoomManager : MonoBehaviour
 					break;
 				case RoomType.BLUE:
 					//spawn the freezer powerup
-					Util.GetRandomElement<Room>(rooms).SpawnPickup(freezerPickup);
+					Util.GetRandomElement<Room>(rooms).SpawnInsideRoom(freezerPickup);
 					break;
 				case RoomType.GREEN:
 					//spawn some ammo
-					Util.GetRandomElement<Room>(rooms).SpawnPickup(ammoPickup);
+					Util.GetRandomElement<Room>(rooms).SpawnInsideRoom(ammoPickup);
 					break;
 				case RoomType.PURPLE:
 					//win!
@@ -99,7 +99,7 @@ public class RoomManager : MonoBehaviour
 					break;
 				case RoomType.RED:
 					//spawn some health
-					Util.GetRandomElement<Room>(rooms).SpawnPickup(healthPickup);
+					Util.GetRandomElement<Room>(rooms).SpawnInsideRoom(healthPickup);
 					break;
 				}
 			} else {
@@ -140,9 +140,12 @@ public class RoomManager : MonoBehaviour
 			List<GameObject> objs = room.GetObjectsInside();
 			foreach(GameObject obj in objs) {
 				if(obj.layer == LayerMask.NameToLayer("Player")) {
+					//just end this function because the game is going to end
 					obj.GetComponent<PlayerController>().Die();
+					return;
 				} else {
-					GameObject.DestroyImmediate(obj);
+					obj.SendMessage("Die");
+					//GameObject.DestroyImmediate(obj);
 				}
 			}
 		}

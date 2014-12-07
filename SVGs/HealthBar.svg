@@ -14,7 +14,10 @@
    id="svg2989"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="New document 2">
+   sodipodi:docname="HealthBar.svg"
+   inkscape:export-filename="E:\Game Dev Workspace\Unity Projects\ludum31\Assets\UI\IceBarFilling.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs2991" />
   <sodipodi:namedview
@@ -53,7 +56,7 @@
      id="layer1"
      transform="translate(0,-572.36217)">
     <rect
-       style="fill:#ff0000;fill-opacity:1;stroke:#a30000;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:700"
+       style="fill:#29a6ff;fill-opacity:1;stroke:#06006f;stroke-width:1.99999988000000010;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none;stroke-dashoffset:700"
        id="rect2997"
        width="118"
        height="478"

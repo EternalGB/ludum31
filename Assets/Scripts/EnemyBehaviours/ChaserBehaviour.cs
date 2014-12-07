@@ -17,7 +17,14 @@ public class ChaserBehaviour : MonoBehaviour
 		ga = GetComponent<GameActor>();
 	}
 
-
+	void OnCollisionEnter2D(Collision2D coll)
+	{
+		if(coll.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
+			if(name != "Sentinal" && coll.gameObject.name == "Sentinal") {
+				SendMessage("Die");
+			}
+		}
+	}
 
 	void Update()
 	{

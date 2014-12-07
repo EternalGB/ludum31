@@ -17,7 +17,7 @@
    inkscape:export-filename="E:\Game Dev Workspace\Unity Projects\ludum31\Assets\Sprites\Player.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
-   sodipodi:docname="New document 4">
+   sodipodi:docname="Player.svg">
   <defs
      id="defs3788" />
   <sodipodi:namedview
@@ -28,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="-41.531386"
-     inkscape:cy="53.703928"
+     inkscape:cx="42.040043"
+     inkscape:cy="50.489642"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,11 +56,11 @@
      id="layer1"
      transform="translate(0,-988.36218)">
     <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:#e1e1e1;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:700"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:700"
        id="rect4302"
-       width="64"
-       height="64"
-       x="0"
-       y="988.36218" />
+       width="60"
+       height="60"
+       x="2"
+       y="990.36218" />
   </g>
 </svg>

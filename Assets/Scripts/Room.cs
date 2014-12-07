@@ -48,13 +48,30 @@ public class Room : MonoBehaviour
 		return objs;
 	}
 
-	public void SpawnPickup(GameObject prefab)
+	public void SpawnInsideRoom(GameObject prefab)
 	{
 		Vector2 topLeft = ((Vector2)transform.position) - floorSize/2;
 		Vector2 bottomRight = topLeft + floorSize;
 		Vector3 position = Util.RandomPointInside(topLeft,bottomRight);
-		GameObject.Instantiate(prefab,position,Quaternion.identity);
+		GameObject go = (GameObject)GameObject.Instantiate(prefab,position,Quaternion.identity);
+		go.name = prefab.name;
 	}
+
+	public void RespawnSentinal(GameObject prefab, float waitTime)
+	{
+		GameObject toSpawn = prefab;
+		float time = waitTime;
+		StartCoroutine(Timers.Countdown<GameObject>(time,RespawnSentinal,toSpawn));
+	}
+
+	void RespawnSentinal(GameObject prefab)
+	{
+		GameObject go = (GameObject)GameObject.Instantiate(prefab,transform.position,Quaternion.identity);
+		go.name = prefab.name;
+		go.GetComponent<DieOnRoomDeath>().homeRoom = this;
+		go.GetComponent<SentinalBehaviour>().homeRoom = this;
+	}
+
 		
 }
 

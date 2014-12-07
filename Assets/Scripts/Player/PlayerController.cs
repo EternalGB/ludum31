@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
 
 	public void Die()
 	{
+		GetComponent<SpriteRenderer>().enabled = false;
 		Time.timeScale = 0;
 		deathParticles.Play();
 		GameObject.Find ("RoomManager").GetComponent<RoomManager>().paused = true;
